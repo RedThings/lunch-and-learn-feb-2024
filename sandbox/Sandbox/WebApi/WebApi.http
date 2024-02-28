@@ -1,0 +1,7 @@
+@WebApi_HostAddress = http://localhost:5169
+
+GET {{WebApi_HostAddress}}/game/start?name=first+game
+
+###
+
+GET {{WebApi_HostAddress}}/game/fedd0801-4319-4eff-9b3a-53d1ad2c900c

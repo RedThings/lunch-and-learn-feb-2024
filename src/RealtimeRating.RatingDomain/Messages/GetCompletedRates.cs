@@ -1,5 +1,5 @@
 ﻿namespace RealtimeRating.RatingDomain.Messages;
 
-[Alias(nameof(StartRating))]
+[Alias(nameof(GetCompletedRates))]
 [GenerateSerializer]
-public record StartRating;
+public record GetCompletedRates;

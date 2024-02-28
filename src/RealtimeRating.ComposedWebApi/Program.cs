@@ -41,6 +41,8 @@ builder.Host.UseOrleans(siloBuilder =>
         siloBuilder
             .UseDevelopmentClustering(new IPEndPoint(IPAddress.Loopback, defaultSiloPort))
             .ConfigureEndpoints(IPAddress.Loopback, siloPort, gatewayPort);
+
+        siloBuilder.UseDashboard(c => c.Port = 7269);
     }
 
     siloBuilder.AddMemoryGrainStorageAsDefault();
@@ -85,36 +87,6 @@ builder
     .AddQuoteDomain()
     .AddRatingDomain()
     .AddCustomerQuoteDomain();
-
-builder.Host.UseNServiceBus(
-    _ =>
-    {
-        var configuration = new EndpointConfiguration("RealtimeRating.ComposedWebApi");
-
-        configuration.UseTransport(new RabbitMQTransport(RoutingTopology.Conventional(QueueType.Classic), "host=localhost;username=guest;password=guest"));
-        configuration.UseSerialization<SystemJsonSerializer>();
-        configuration.EnableInstallers();
-        configuration.SendFailedMessagesTo("RealtimeRating.ComposedWebApi.Error");
-
-        // tuning
-        configuration.LimitMessageProcessingConcurrencyTo(128);
-
-        var recoverability = configuration.Recoverability();
-        recoverability.Delayed(c => c.NumberOfRetries(0));
-        recoverability.Immediate(c => c.NumberOfRetries(0));
-        //
-
-        configuration.License(Environment.GetEnvironmentVariable("NSB_LICENSE"));
-
-        return configuration;
-    });
-
-//builder.Host.UseRedisChannels((_, options) =>
-//{
-//    options.ConnectionString = "localhost:6379";
-//    options.PublisherOnly = portSpread > 0;
-//    options.RegisterRatingEventHandlers();
-//});
 
 builder.Services.AddCors(
     setupAction =>

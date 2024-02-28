@@ -2,10 +2,10 @@
 
 namespace RealtimeRating.RatingDomain.Messages;
 
-[Alias(nameof(AddRate))]
+[Alias(nameof(CompleteRating))]
 [GenerateSerializer]
-public record AddRate
+public record CompleteRating
 {
     [Id(0)]
-    public required Rate Rate { get; init; }
+    public required Rate[] Rates { get; init; }
 }

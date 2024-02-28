@@ -119,7 +119,7 @@ ScenarioProps BuildScenario(int rate, TimeSpan interval, TimeSpan during, bool w
             //
             var counter = 0;
 
-            while (counter < 50)
+            while (counter < 10)
             {
                 using var getRatingResultsHttpResponse = await httpClient.GetAsync($"/rating-results?customer_id={customerId}&rating_session_id={ratingSessionId}&quote_id={quoteId}&risk_variation_id={riskVariationId}&policy_line_definition_code={pldCode}").ConfigureAwait(false);
                 var getRatingResultsJson = await getRatingResultsHttpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
@@ -134,7 +134,7 @@ ScenarioProps BuildScenario(int rate, TimeSpan interval, TimeSpan during, bool w
 
                 counter++;
 
-                await Task.Delay(100);
+                await Task.Delay(1000);
             }
 
             //

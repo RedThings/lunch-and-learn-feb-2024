@@ -11,13 +11,22 @@ public class DisplayRatingResultsParticipator(IGrainFactory factory) : IParticip
 
     public async Task Participate(DisplayRatingResultsRequest request, DisplayRatingResultsResponse response)
     {
-        var grain = factory.GetGrain<IRepresentARatingSession>(request.RatingSessionId);
+        var completedGrain = factory.GetGrain<IRepresentACompletedRatingSession>(request.RatingSessionId);
 
-        var results = await grain.Ask(new GetFetchingRatesResult());
+        var completed = await completedGrain.Ask(new IsRatingCompleted());
 
-        response.NumberOfRatesExpected = results.NumberOfRatesExpected;
-        response.FinishedRating = results.Finished;
-        response.Rates = results.Rates.OrderBy(x => x.Premium).Select(x => new RateResult
+        if (!completed)
+        {
+            response.Rates = [];
+            return;
+        }
+
+        var numberOfExpectedRates = await completedGrain.Ask(new GetNumberOfExpectedRates());
+        var rates = await completedGrain.Ask(new GetCompletedRates());
+
+        response.NumberOfRatesExpected = numberOfExpectedRates;
+        response.FinishedRating = true;
+        response.Rates = rates.OrderBy(x => x.Premium).Select(x => new RateResult
         {
             Carrier = x.Carrier,
             Name = x.Name,

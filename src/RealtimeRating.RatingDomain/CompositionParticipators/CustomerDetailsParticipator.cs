@@ -11,6 +11,8 @@ public class CustomerDetailsParticipator(IGrainFactory grainFactory) : IParticip
 
     public async Task Participate(CustomerDetailsRequest request, CustomerDetailsResponse response)
     {
+        await Task.CompletedTask; // todo: remove
+
         if (request.Last5QuotesMetadata == null)
         {
             throw new Exception($"{nameof(request.Last5QuotesMetadata)} is null - execution order must be wrong");
@@ -23,10 +25,10 @@ public class CustomerDetailsParticipator(IGrainFactory grainFactory) : IParticip
             response.Last5Quotes.ElementAt(i).DateCreated = request.Last5QuotesMetadata.ElementAt(i).Added.ToString("F");
 
             var ratingSessionId = request.Last5QuotesMetadata.ElementAt(i).RatingSessionId;
-            var ratingSession = grainFactory.GetGrain<IRepresentARatingSession>(ratingSessionId);
-            var ratingResults = await ratingSession.Ask(new GetFetchingRatesResult());
+            var completedRatingSession = grainFactory.GetGrain<IRepresentACompletedRatingSession>(ratingSessionId);
+            var rates = await completedRatingSession.Ask(new GetCompletedRates());
 
-            if (ratingResults.Rates.Count < 1)
+            if (rates.Count < 1)
             {
                 response.Last5Quotes.ElementAt(i).CheapestCarrier = "(Rating yet to finish)";
                 response.Last5Quotes.ElementAt(i).CheapestProductName = "(Rating yet to finish)";
@@ -35,7 +37,7 @@ public class CustomerDetailsParticipator(IGrainFactory grainFactory) : IParticip
                 continue;
             }
 
-            var cheapestRate = ratingResults.Rates.OrderBy(x => x.Premium).First();
+            var cheapestRate = rates.OrderBy(x => x.Premium).First();
 
             response.Last5Quotes.ElementAt(i).CheapestCarrier = cheapestRate.Carrier;
             response.Last5Quotes.ElementAt(i).CheapestProductName = cheapestRate.Name;

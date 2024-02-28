@@ -5,8 +5,9 @@ using RealtimeRating.RatingDomain.Messages;
 
 namespace RealtimeRating.RatingDomain.CompositionParticipators;
 
-public class StartRatingParticipator(IGrainFactory grainFactory)
-    : IParticipateInViewModelComposition<StartRatingRequest, StartRatingResponse>
+//public class StartRatingParticipator(IGrainFactory grainFactory)
+//public class StartRatingParticipator(IMessageSession messageSession)
+public class StartRatingParticipator(IGrainFactory grainFactory) : IParticipateInViewModelComposition<StartRatingRequest, StartRatingResponse>
 {
     private IRepresentARatingSession? session;
 
@@ -22,13 +23,11 @@ public class StartRatingParticipator(IGrainFactory grainFactory)
             return;
         }
 
+        //await messageSession.Publish(new RatingRequested(ratingSessionId));
+        
         session = grainFactory.GetGrain<IRepresentARatingSession>(ratingSessionId);
 
-        await session.Tell(new StartRating
-        {
-            PolicyLineDefinitionCode = request.PolicyLineDefinitionCode,
-            RiskData = request.RiskData
-        });
+        await session.Tell(new StartRating());
     }
 
     public async Task Rollback(Exception exception)
