@@ -1,0 +1,2 @@
+# use docker compose
+docker_compose("local-dev-docker-compose.yaml")

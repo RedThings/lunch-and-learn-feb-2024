@@ -1,0 +1,31 @@
+﻿@page "/rating-results"
+@model RealtimeRating.WebUi.Pages.RatingResultsModel
+@{
+    ViewData["Title"] = "End to End Quoting";
+}
+<h1>Results</h1>
+<p><a href="~/customer?customer_id=@Model.CustomerId">Back to customer</a></p>
+<p><em id="message">Fetching rates...</em></p>
+<p id="number_fetched">0/? rates fetched</p>
+<table style="display: none;">
+    <thead>
+        <tr>
+            <th>Carrier</th>
+            <th>Description</th>
+            <th>Price</th>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+
+@section Scripts {
+    <script>
+        window.CUSTOMER_ID = "@Model.CustomerId";
+        window.QUOTE_ID = "@Model.QuoteId";
+        window.RISK_VARIATION_ID = "@Model.RiskVariationId";
+        window.POLICY_LINE_DEFINITION_CODE = "@Model.PolicyLineDefinitionCode";
+        window.RATING_SESSION_ID = "@Model.RatingSessionId";
+    </script>
+    <script src="~/js/rating-results.js"></script>
+}

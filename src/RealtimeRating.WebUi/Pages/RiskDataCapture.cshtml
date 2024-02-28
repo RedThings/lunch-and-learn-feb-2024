@@ -1,0 +1,32 @@
+﻿@page "/risk-data-capture"
+@model RealtimeRating.WebUi.Pages.RiskModel
+@{
+    ViewData["Title"] = "End to End Quoting";
+}
+<h1>Capture Risk Data</h1>
+
+<form id="the_form" method="post">
+    @Html.AntiForgeryToken()
+    <div class="form-row">
+        <label>Policy Line Definition</label>
+        <p id="policy_line_definition_name"></p>
+    </div>
+    <div class="form-row">
+        <label>Risk Variation Name</label>
+        <p id="risk_variation_name"></p>
+    </div>
+    <div id="inner_form"></div>
+    <div class="form-row">
+        <button type="submit">Get Quotes</button>
+    </div>
+</form>
+
+@section Scripts {
+    <script>
+        window.CUSTOMER_ID = "@Model.CustomerId";
+        window.QUOTE_ID = "@Model.QuoteId";
+        window.RISK_VARIATION_ID = "@Model.RiskVariationId";
+        window.POLICY_LINE_DEFINITION_CODE = "@Model.PolicyLineDefinitionCode";
+    </script>
+    <script src="~/js/risk-data-capture.js"></script>
+}

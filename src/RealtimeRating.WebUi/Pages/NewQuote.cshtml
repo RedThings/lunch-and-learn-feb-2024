@@ -1,0 +1,33 @@
+﻿@page "/new-quote"
+@model NewQuoteModel
+@{
+    ViewData["Title"] = "End to End Quoting";
+}
+<h1>Start a Quote</h1>
+
+<form id="the_form" method="post">
+    @Html.AntiForgeryToken()
+    <div class="form-row">
+        <label for="quote_name">Quote Name:</label>
+        <span>
+            <input id="quote_name" type="text" placeholder="Enter a name for this quote..." />
+        </span>
+    </div>
+    <div class="form-row">
+        <label for="policy_type">Policy Type:</label>
+        <span>
+            <select id="policy_type"></select>
+        </span>
+    </div>
+    <div class="form-row">
+        <button type="submit">Start</button>
+    </div>
+</form>
+
+@section Scripts {
+    <script>
+        window.CUSTOMER_ID = "@Model.CustomerId";
+    </script>
+
+    <script src="~/js/new-quote.js"></script>
+}
