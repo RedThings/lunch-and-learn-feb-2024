@@ -21,7 +21,9 @@ public class CompletedRatingSession(
         persistentState.State.Rates = message.Rates;
         persistentState.State.Completed = true;
 
-        await persistentState.WriteStateAsync();
+
+        await Task.CompletedTask;
+        //await persistentState.WriteStateAsync();
     }
 
     public Task<bool> Ask(IsRatingCompleted message) => Task.FromResult(persistentState.State.Completed);

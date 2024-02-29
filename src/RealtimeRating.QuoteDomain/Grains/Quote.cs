@@ -21,7 +21,8 @@ public class Quote(
 
         persistentState.State.RiskVariations.Add(new RiskVariationState { Id = message.Id, Name = message.Name });
 
-        await persistentState.WriteStateAsync();
+        await Task.CompletedTask;
+        //await persistentState.WriteStateAsync();
     }
 
     public async Task Tell(DeactivateQuote _)

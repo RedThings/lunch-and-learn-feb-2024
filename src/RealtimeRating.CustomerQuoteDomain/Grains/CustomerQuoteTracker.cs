@@ -44,7 +44,9 @@ public class CustomerQuoteTracker(
 
         persistentState.State.CustomerQuoteMetadatas.Remove(found);
 
-        await persistentState.WriteStateAsync();
+        DeactivateOnIdle();
+
+        await persistentState.ClearStateAsync();
     }
 
     public Task<IReadOnlyCollection<CustomerQuoteMetadata>> Ask(GetLast5Quotes message)

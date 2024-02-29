@@ -8,10 +8,10 @@ using RealtimeRating.PolicyLineDefinitionDomain;
 using RealtimeRating.QuoteDomain;
 using RealtimeRating.RatingDomain;
 
-const string policyLineDefinitionsDbConnectionString = "Server=.\\SqlServer2017;Database=OrleansPolicyLineDefinitions;Trusted_Connection=True;Encrypt=false";
-const string quotesDbConnectionString = "Server=.\\SqlServer2017;Database=OrleansQuotes;Trusted_Connection=True;Encrypt=false";
-const string ratingDbConnectionString = "Server=.\\SqlServer2017;Database=OrleansRating;Trusted_Connection=True;Encrypt=false";
-const string customerQuoteDbConnectionString = "Server=.\\SqlServer2017;Database=OrleansCustomerQuote;Trusted_Connection=True;Encrypt=false";
+const string policyLineDefinitionsDbConnectionString = "Server=.\\SqlServer2017;Database=OrleansPolicyLineDefinitions;Trusted_Connection=True;Pooling=True;Encrypt=false";
+const string quotesDbConnectionString = "Server=.\\SqlServer2017;Database=OrleansQuotes;Trusted_Connection=True;Pooling=True;Encrypt=false";
+const string ratingDbConnectionString = "Server=.\\SqlServer2017;Database=OrleansRating;Trusted_Connection=True;Pooling=True;Encrypt=false";
+const string customerQuoteDbConnectionString = "Server=.\\SqlServer2017;Database=OrleansCustomerQuote;Trusted_Connection=True;Pooling=True;Encrypt=false";
 
 DoDbUp();
 
