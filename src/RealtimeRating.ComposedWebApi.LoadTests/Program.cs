@@ -9,7 +9,6 @@ using RealtimeRating.Composition.RiskDataCapture;
 
 var jsonOptions = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
 var httpClient = new HttpClient { BaseAddress = new Uri("https://localhost:7270") };
-var customerId = new Guid("4e89378b-412a-4414-be1a-5eebed5347f3");
 
 RunTests();
 Console.ReadLine();
@@ -51,6 +50,8 @@ ScenarioProps BuildScenario(int rate, TimeSpan interval, TimeSpan during, bool w
     {
         try
         {
+            var customerId = Guid.NewGuid(); // need a unique customer here so CustomerQuote grain doesn't experience contention
+
             //
             var newQuoteHttpResponse = await httpClient.GetAsync($"/new-quote?customer_id={customerId}").ConfigureAwait(false);
             var newQuoteJson = await newQuoteHttpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);

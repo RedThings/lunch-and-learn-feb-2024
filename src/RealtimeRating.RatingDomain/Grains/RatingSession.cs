@@ -57,9 +57,8 @@ public class RatingSession(
         {
             Rates = rates
         });
-
         
-        //await persistentState.WriteStateAsync();
+        await persistentState.WriteStateAsync();
     }
 
     public async Task Tell(DeactivateRatingSession message)

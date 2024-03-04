@@ -22,10 +22,8 @@ public class PolicyLineDefinitionsProvider(
         {
             Definitions = definitions
         };
-
-
-        await Task.CompletedTask;
-        //await persistentState.WriteStateAsync();
+        
+        await persistentState.WriteStateAsync();
 
         return definitions;
     }
